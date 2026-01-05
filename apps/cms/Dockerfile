@@ -1,5 +1,4 @@
 FROM node:20-alpine
-
 WORKDIR /app
 
 RUN apk add --no-cache libc6-compat
@@ -9,10 +8,11 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
+ARG PAYLOAD_SECRET
+ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
 
 RUN npm run build
 
 ENV NODE_ENV=production
 EXPOSE 8080
-
-CMD ["npm", "run", "start"]
+CMD ["npm","run","start"]
