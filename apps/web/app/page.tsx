@@ -7,7 +7,9 @@ import Testimonial from '../components/landing/Testimonial'
 import FAQ from '../components/landing/FAQ'
 import FooterLogos from '../components/landing/FooterLogos'
 
-export default function Page() {
+
+export default async function Page() {
+
   return (
     <>
       <Header />
@@ -23,3 +25,6 @@ export default function Page() {
     </>
   )
 }
+
+
+
