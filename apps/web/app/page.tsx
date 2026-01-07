@@ -6,11 +6,13 @@ import Brag from '../components/landing/Brag'
 import Testimonial from '../components/landing/Testimonial'
 import FAQ from '../components/landing/FAQ'
 import FooterLogos from '../components/landing/FooterLogos'
-
+import { getTrustStats } from "../lib/api/trustStats";
 
 export default async function Page() {
+  const trustStats = await getTrustStats();
 
   return (
+    
     <>
       <Header />
       <main>

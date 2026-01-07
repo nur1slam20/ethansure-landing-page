@@ -1,40 +1,37 @@
-const CMS_URL =
-  process.env.NEXT_PUBLIC_CMS_URL ?? 'http://localhost:3000'
 
-type PayloadList<T> = {
-  docs: T[]
-  totalDocs: number
+type FetchOpts = RequestInit & { next?: { revalidate?: number } };
+
+function getBaseUrl() {
+  const url =
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.RAILWAY_PUBLIC_DOMAIN && `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` ||
+    process.env.RAILWAY_STATIC_URL;
+
+  if (!url) throw new Error("NEXT_PUBLIC_API_URL is missing");
+  return url.replace(/\/$/, "");
 }
 
-export type Project = {
-  id: string
-  title: string
-  slug: string
-  description?: string
-}
 
-export type Faq = {
-  id: string
-  question: string
-  answer: string
-}
 
-async function fetchFromCMS<T>(path: string): Promise<T> {
-  const res = await fetch(`${CMS_URL}${path}`, {
-    next: { revalidate: 60 },
-  })
+export async function payloadFetch<T>(
+  path: string,
+  opts: FetchOpts = {},
+): Promise<T> {
+  const base = getBaseUrl();
+  const url = `${base}${path.startsWith("/") ? "" : "/"}${path}`;
+
+  const res = await fetch(url, {
+    ...opts,
+    headers: {
+      ...(opts.headers || {}),
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!res.ok) {
-    throw new Error(`CMS error: ${path}`)
+    const text = await res.text().catch(() => "");
+    throw new Error(`Payload API ${res.status}: ${text || res.statusText}`);
   }
 
-  return res.json()
-}
-
-export function getProjects() {
-  return fetchFromCMS<PayloadList<Project>>('/api/projects')
-}
-
-export function getFaqs() {
-  return fetchFromCMS<PayloadList<Faq>>('/api/faqs')
+  return res.json() as Promise<T>;
 }
