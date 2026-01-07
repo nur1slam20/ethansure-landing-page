@@ -1,21 +1,22 @@
-
 type FetchOpts = RequestInit & { next?: { revalidate?: number } };
 
 function getBaseUrl() {
   const url =
     process.env.NEXT_PUBLIC_API_URL ||
-    process.env.RAILWAY_PUBLIC_DOMAIN && `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` ||
+    (process.env.RAILWAY_PUBLIC_DOMAIN &&
+      `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`) ||
     process.env.RAILWAY_STATIC_URL;
 
-  if (!url) throw new Error("NEXT_PUBLIC_API_URL is missing");
+  if (!url) {
+    throw new Error("NEXT_PUBLIC_API_URL is missing");
+  }
+
   return url.replace(/\/$/, "");
 }
 
-
-
 export async function payloadFetch<T>(
   path: string,
-  opts: FetchOpts = {},
+  opts: FetchOpts = {}
 ): Promise<T> {
   const base = getBaseUrl();
   const url = `${base}${path.startsWith("/") ? "" : "/"}${path}`;
@@ -23,8 +24,8 @@ export async function payloadFetch<T>(
   const res = await fetch(url, {
     ...opts,
     headers: {
-      ...(opts.headers || {}),
       "Content-Type": "application/json",
+      ...(opts.headers || {}),
     },
   });
 
