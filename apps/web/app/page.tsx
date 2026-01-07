@@ -7,13 +7,23 @@ import Testimonial from '../components/landing/Testimonial'
 import FAQ from '../components/landing/FAQ'
 import FooterLogos from '../components/landing/FooterLogos'
 import { getTrustStats } from "../lib/api/trustStats";
+import { getProjects } from '@/lib/cms'
 
 export default async function Page() {
   const trustStats = await getTrustStats();
-
+  const data = await getProjects();
   return (
     
     <>
+        <div>
+      {data.docs.map((p) => (
+        <div key={p.id}>
+          <h2>{p.title}</h2>
+          <p>{p.shortDescription}</p>
+        </div>
+      ))}
+    </div>
+
       <Header />
       <main>
         <Hero />
