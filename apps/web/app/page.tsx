@@ -9,8 +9,16 @@ import FooterLogos from '../components/landing/FooterLogos'
 import { getTrustStats } from "../lib/api/trustStats";
 import { getProjects } from '@/lib/cms'
 
+
 export default async function Page() {
-  const trustStats = await getTrustStats();
+ let trustStats: any[] = []
+
+  try {
+    const res = await getTrustStats()
+    trustStats = res.docs
+  } catch (e) {
+    console.warn('trust-stats not ready yet')
+  }
   const data = await getProjects();
   return (
     

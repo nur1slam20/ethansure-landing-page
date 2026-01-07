@@ -1,4 +1,5 @@
 
+import { TrustStats } from './collections/TrustStats'
 
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
@@ -31,5 +32,5 @@ export default buildConfig({
     user: Users.slug,
   },
 
-  collections: [Users, Media, Projects, Faqs],
+  collections: [Users, Media, Projects, Faqs, TrustStats],
 })
