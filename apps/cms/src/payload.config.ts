@@ -11,11 +11,8 @@ import { TrustStats } from './collections/truststats'
 import { Pages } from './collections/pages'
 import { Testimonials } from './collections/testimonials'
 
-const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET
-if (!PAYLOAD_SECRET) throw new Error('PAYLOAD_SECRET is missing')
-
-const DATABASE_URL = process.env.DATABASE_URL
-if (!DATABASE_URL) throw new Error('DATABASE_URL is missing')
+const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET || 'build-time-secret-placeholder'
+const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://build-placeholder'
 
 const BLOB_READ_WRITE_TOKEN = process.env.BLOB_READ_WRITE_TOKEN
 
