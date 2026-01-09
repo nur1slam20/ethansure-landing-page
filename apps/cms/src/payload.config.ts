@@ -12,19 +12,12 @@ import { Pages } from './collections/pages'
 import { Testimonials } from './collections/testimonials'
 
 const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET
-if (!PAYLOAD_SECRET && typeof window === 'undefined') {
-  throw new Error('PAYLOAD_SECRET is missing')
-}
+if (!PAYLOAD_SECRET) throw new Error('PAYLOAD_SECRET is missing')
 
 const DATABASE_URL = process.env.DATABASE_URL
-if (!DATABASE_URL && typeof window === 'undefined') {
-  throw new Error('DATABASE_URL is missing')
-}
+if (!DATABASE_URL) throw new Error('DATABASE_URL is missing')
 
 const BLOB_READ_WRITE_TOKEN = process.env.BLOB_READ_WRITE_TOKEN
-if (!BLOB_READ_WRITE_TOKEN && typeof window === 'undefined' && process.env.NODE_ENV !== 'production') {
-  console.warn('BLOB_READ_WRITE_TOKEN is missing - Vercel Blob Storage will not work')
-}
 
 export default buildConfig({
   secret: PAYLOAD_SECRET,
@@ -47,12 +40,16 @@ export default buildConfig({
   collections: [Users, Media, Projects, Faqs, TrustStats, Pages, Testimonials],
 
   plugins: [
-    vercelBlobStorage({
-      token: BLOB_READ_WRITE_TOKEN,
-      collections: {
-        media: true,
-      },
-    }),
+    ...(BLOB_READ_WRITE_TOKEN
+      ? [
+          vercelBlobStorage({
+            token: BLOB_READ_WRITE_TOKEN,
+            collections: {
+              media: true,
+            },
+          }),
+        ]
+      : []),
   ],
 
   sharp,
