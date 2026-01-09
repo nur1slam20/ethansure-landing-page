@@ -7,7 +7,7 @@ import { Users } from './collections/users'
 import { Media } from './collections/media'
 import { Projects } from './collections/project'
 import { Faqs } from './collections/faqs'
-import { TrustStats } from './collections/truststats'
+import { TrustStats } from './collections/TrustStats'
 import { Pages } from './collections/pages'
 import { Testimonials } from './collections/testimonials'
 
