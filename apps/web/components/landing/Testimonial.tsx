@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
-type T = {
+export type TestimonialItem = {
+  id: string
   name: string
   role: string
   company: string
@@ -12,22 +13,15 @@ type T = {
   photo: string
 }
 
-const data: T[] = [
-  {
-    name: 'FRAZER HURRELL',
-    role: 'CREATIVE TECHNOLOGIST',
-    company: 'YAHOO!',
-    project: 'BRITISH AIRWAYS',
-    text: 'From the initial meeting to the final delivery...',
-    photo: '/award-4.png',
-  },
-]
+type TestimonialProps = {
+  items: TestimonialItem[]
+}
 
-export default function Testimonial() {
-  if (!data.length) return null
+export default function Testimonial({ items }: TestimonialProps) {
+  if (!items?.length) return null
 
   const [i, setI] = useState(0)
-  const cur = data[i]
+  const cur = items[i]
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-24">
@@ -63,17 +57,20 @@ export default function Testimonial() {
         <div className="flex items-center justify-between border-t px-6 py-4 text-xs tracking-[0.18em]">
           <button
             aria-label="Previous testimonial"
-            onClick={() => setI((v) => (v - 1 + data.length) % data.length)}
+            onClick={() => setI((v) => (v - 1 + items.length) % items.length)}
             className="hover:opacity-70"
           >
             ←
           </button>
+
           <div>
-            {String(i + 1).padStart(2, '0')}/{String(data.length).padStart(2, '0')}
+            {String(i + 1).padStart(2, '0')} /
+            {String(items.length).padStart(2, '0')}
           </div>
+
           <button
             aria-label="Next testimonial"
-            onClick={() => setI((v) => (v + 1) % data.length)}
+            onClick={() => setI((v) => (v + 1) % items.length)}
             className="hover:opacity-70"
           >
             →

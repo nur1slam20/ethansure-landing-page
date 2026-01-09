@@ -1,16 +1,17 @@
-import { CollectionConfig } from 'payload'
+
+import { CollectionConfig } from 'payload';
 
 export const TrustStats: CollectionConfig = {
   slug: 'trust-stats',
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: 'label',
   },
   access: {
-    read: () => true, 
+    read: () => true,
   },
   fields: [
     {
-      name: 'title',
+      name: 'label',
       type: 'text',
       required: true,
     },
@@ -22,7 +23,7 @@ export const TrustStats: CollectionConfig = {
     {
       name: 'order',
       type: 'number',
-      defaultValue: 0,
+      required: true,
     },
   ],
-}
+};

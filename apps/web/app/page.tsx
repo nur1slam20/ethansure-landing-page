@@ -1,50 +1,25 @@
-import Header from '../components/header/Header'
-import Hero from '../components/hero/Hero'
-import Work from '../components/landing/Work'
-import Process from '../components/landing/Process'
-import Brag from '../components/landing/Brag'
-import Testimonial from '../components/landing/Testimonial'
-import FAQ from '../components/landing/FAQ'
-import FooterLogos from '../components/landing/FooterLogos'
-import { getTrustStats } from "../lib/api/trustStats";
-import { getProjects } from '@/lib/cms'
+import Header from '@/components/header/Header'
+import HeroSection from '@/components/landing/HeroSection'
+import WorkSection from '@/components/landing/WorkSection'
+import ProcessSection from '@/components/landing/ProcessSection'
+import BragSection from '@/components/landing/BragSection'
+import TestimonialSection from '@/components/landing/TestimonialSection'
+import FAQSection from '@/components/landing/FAQSection'
+import FooterLogosSection from '@/components/landing/FooterLogosSection'
 
-
-export default async function Page() {
- let trustStats: any[] = []
-
-  try {
-    const res = await getTrustStats()
-    trustStats = res.docs
-  } catch (e) {
-    console.warn('trust-stats not ready yet')
-  }
-  const data = await getProjects();
+export default function Page() {
   return (
-    
     <>
-        <div>
-      {data.docs.map((p) => (
-        <div key={p.id}>
-          <h2>{p.title}</h2>
-          <p>{p.shortDescription}</p>
-        </div>
-      ))}
-    </div>
-
       <Header />
       <main>
-        <Hero />
-        <Work />
-        <Process />
-        <Brag />
-        <Testimonial />
-        <FAQ />
-        <FooterLogos />
+        <HeroSection />
+        <WorkSection />
+        <ProcessSection />
+        <BragSection />
+        <TestimonialSection />
+        <FAQSection />
+        <FooterLogosSection />
       </main>
     </>
   )
 }
-
-
-

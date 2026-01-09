@@ -12,6 +12,12 @@ const nextConfig = {
 
     return webpackConfig
   },
+  // Experimental: Try to fix routing issues
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

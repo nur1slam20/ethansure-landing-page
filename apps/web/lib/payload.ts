@@ -1,42 +1,42 @@
-type FetchOpts = RequestInit & { next?: { revalidate?: number } };
-
-function normalizeBaseUrl(raw: string) {
-  const trimmed = raw.trim().replace(/\/$/, "");
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
+type FetchOpts = RequestInit & {
+  next?: { revalidate?: number }
 }
 
 function getBaseUrl() {
-  const raw =
-    process.env.NEXT_PUBLIC_API_URL ||
-    (process.env.RAILWAY_PUBLIC_DOMAIN && `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`) ||
-    process.env.RAILWAY_STATIC_URL;
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')
+  }
 
-  if (!raw) throw new Error("NEXT_PUBLIC_API_URL is missing");
-  return normalizeBaseUrl(raw);
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+    return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`.replace(/\/$/, '')
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+  }
+
+  throw new Error('NEXT_PUBLIC_API_URL is missing')
 }
-
 
 export async function payloadFetch<T>(
   path: string,
-  opts: FetchOpts = {}
+  opts: FetchOpts = {},
 ): Promise<T> {
-  const base = getBaseUrl();
-  const url = `${base}${path.startsWith("/") ? "" : "/"}${path}`;
-
+  const base = getBaseUrl()
+  const url = `${base}${path.startsWith('/') ? '' : '/'}${path}`
 
   const res = await fetch(url, {
     ...opts,
     headers: {
-      "Content-Type": "application/json",
       ...(opts.headers || {}),
+      'Content-Type': 'application/json',
     },
-  });
+  })
 
   if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Payload API ${res.status}: ${text || res.statusText}`);
+    const text = await res.text()
+    throw new Error(`Payload API ${res.status}: ${text}`)
   }
 
-  return res.json() as Promise<T>;
+  return res.json()
 }

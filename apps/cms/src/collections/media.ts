@@ -4,11 +4,10 @@ export const Media: CollectionConfig = {
   slug: 'media',
 
   access: {
-    read: () => true, // фронт может читать изображения
+    read: () => true, 
   },
 
   upload: {
-    staticDir: 'media',     // папка для файлов
     imageSizes: [
       {
         name: 'thumbnail',

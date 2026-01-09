@@ -72,6 +72,8 @@ export interface Config {
     projects: Project;
     faqs: Faq;
     'trust-stats': TrustStat;
+    pages: Page;
+    testimonials: Testimonial;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +86,8 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     'trust-stats': TrustStatsSelect<false> | TrustStatsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -182,10 +186,11 @@ export interface Media {
 export interface Project {
   id: number;
   title: string;
-  slug: string;
   shortDescription?: string | null;
   year?: number | null;
   published?: boolean | null;
+  image?: (number | null) | Media;
+  invert?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -207,8 +212,84 @@ export interface Faq {
  */
 export interface TrustStat {
   id: number;
-  title: string;
+  label: string;
   value: number;
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  slug: string;
+  heroTitle?: string | null;
+  heroRoles?:
+    | {
+        role: string;
+        id?: string | null;
+      }[]
+    | null;
+  heroDescription?: string | null;
+  heroLogos?:
+    | {
+        logo: string;
+        id?: string | null;
+      }[]
+    | null;
+  ctaText?: string | null;
+  ctaButton?: string | null;
+  processHeading?: string | null;
+  processSubheading?: string | null;
+  processSteps?:
+    | {
+        number: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  bragTitle?: string | null;
+  bragSubtitle?: string | null;
+  bragPosters?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  bragRows?:
+    | {
+        company: string;
+        award: string;
+        category: string;
+        year: string;
+        id?: string | null;
+      }[]
+    | null;
+  footerLogosTitle?: string | null;
+  footerLogos?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  company: string;
+  project: string;
+  text: string;
+  photo?: (number | null) | Media;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -256,6 +337,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'trust-stats';
         value: number | TrustStat;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -359,10 +448,11 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   shortDescription?: T;
   year?: T;
   published?: T;
+  image?: T;
+  invert?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -382,8 +472,82 @@ export interface FaqsSelect<T extends boolean = true> {
  * via the `definition` "trust-stats_select".
  */
 export interface TrustStatsSelect<T extends boolean = true> {
-  title?: T;
+  label?: T;
   value?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  slug?: T;
+  heroTitle?: T;
+  heroRoles?:
+    | T
+    | {
+        role?: T;
+        id?: T;
+      };
+  heroDescription?: T;
+  heroLogos?:
+    | T
+    | {
+        logo?: T;
+        id?: T;
+      };
+  ctaText?: T;
+  ctaButton?: T;
+  processHeading?: T;
+  processSubheading?: T;
+  processSteps?:
+    | T
+    | {
+        number?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  bragTitle?: T;
+  bragSubtitle?: T;
+  bragPosters?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  bragRows?:
+    | T
+    | {
+        company?: T;
+        award?: T;
+        category?: T;
+        year?: T;
+        id?: T;
+      };
+  footerLogosTitle?: T;
+  footerLogos?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  company?: T;
+  project?: T;
+  text?: T;
+  photo?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;
