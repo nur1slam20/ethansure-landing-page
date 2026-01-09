@@ -2,9 +2,10 @@ FROM node:20-alpine
 WORKDIR /app
 
 RUN apk add --no-cache libc6-compat
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-COPY package.json package-lock.json ./
-RUN npm install --legacy-peer-deps
+COPY package.json package-lock.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
@@ -13,8 +14,8 @@ ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
 
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
-RUN npm run build
+RUN pnpm run build
 
 ENV NODE_ENV=production
 EXPOSE 8080
-CMD ["npm","run","start"]
+CMD ["pnpm","start"]
