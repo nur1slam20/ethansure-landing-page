@@ -1,6 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    CREATE TABLE "trust_stats" (
   	"id" serial PRIMARY KEY NOT NULL,
@@ -18,7 +18,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_trust_stats_id_idx" ON "payload_locked_documents_rels" USING btree ("trust_stats_id");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "trust_stats" DISABLE ROW LEVEL SECURITY;
   DROP TABLE "trust_stats" CASCADE;

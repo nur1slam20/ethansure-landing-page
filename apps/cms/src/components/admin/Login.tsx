@@ -2,6 +2,7 @@
 
 import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function CustomLogin() {
   const router = useRouter()
@@ -192,7 +193,7 @@ export default function CustomLogin() {
 
         {/* Forgot Password Link */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <a
+          <Link
             href="/admin/forgot"
             style={{
               fontSize: '14px',
@@ -208,7 +209,7 @@ export default function CustomLogin() {
             }}
           >
             Forgot password?
-          </a>
+          </Link>
         </div>
 
         {/* Login Button */}
