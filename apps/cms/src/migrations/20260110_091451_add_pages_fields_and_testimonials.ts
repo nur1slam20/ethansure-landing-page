@@ -11,22 +11,22 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 
     CREATE TABLE IF NOT EXISTS "pages_hero_roles" (
       "id" serial PRIMARY KEY NOT NULL,
-      "order" integer,
-      "parent_id" integer NOT NULL,
+      "_order" integer,
+      "_parent_id" integer NOT NULL,
       "role" varchar NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS "pages_hero_logos" (
       "id" serial PRIMARY KEY NOT NULL,
-      "order" integer,
-      "parent_id" integer NOT NULL,
+      "_order" integer,
+      "_parent_id" integer NOT NULL,
       "logo" varchar NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS "pages_process_steps" (
       "id" serial PRIMARY KEY NOT NULL,
-      "order" integer,
-      "parent_id" integer NOT NULL,
+      "_order" integer,
+      "_parent_id" integer NOT NULL,
       "number" varchar NOT NULL,
       "title" varchar NOT NULL,
       "description" text NOT NULL
@@ -34,15 +34,15 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 
     CREATE TABLE IF NOT EXISTS "pages_brag_posters" (
       "id" serial PRIMARY KEY NOT NULL,
-      "order" integer,
-      "parent_id" integer NOT NULL,
+      "_order" integer,
+      "_parent_id" integer NOT NULL,
       "image_id" integer
     );
 
     CREATE TABLE IF NOT EXISTS "pages_brag_rows" (
       "id" serial PRIMARY KEY NOT NULL,
-      "order" integer,
-      "parent_id" integer NOT NULL,
+      "_order" integer,
+      "_parent_id" integer NOT NULL,
       "company" varchar NOT NULL,
       "award" varchar NOT NULL,
       "category" varchar NOT NULL,
@@ -51,8 +51,8 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 
     CREATE TABLE IF NOT EXISTS "pages_footer_logos" (
       "id" serial PRIMARY KEY NOT NULL,
-      "order" integer,
-      "parent_id" integer NOT NULL,
+      "_order" integer,
+      "_parent_id" integer NOT NULL,
       "label" varchar NOT NULL
     );
 
@@ -71,29 +71,29 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 
     ALTER TABLE "payload_locked_documents_rels" ADD COLUMN IF NOT EXISTS "testimonials_id" integer;
 
-    CREATE INDEX IF NOT EXISTS "pages_hero_roles_order_idx" ON "pages_hero_roles" USING btree ("order");
-    CREATE INDEX IF NOT EXISTS "pages_hero_roles_parent_id_idx" ON "pages_hero_roles" USING btree ("parent_id");
-    CREATE INDEX IF NOT EXISTS "pages_hero_logos_order_idx" ON "pages_hero_logos" USING btree ("order");
-    CREATE INDEX IF NOT EXISTS "pages_hero_logos_parent_id_idx" ON "pages_hero_logos" USING btree ("parent_id");
-    CREATE INDEX IF NOT EXISTS "pages_process_steps_order_idx" ON "pages_process_steps" USING btree ("order");
-    CREATE INDEX IF NOT EXISTS "pages_process_steps_parent_id_idx" ON "pages_process_steps" USING btree ("parent_id");
-    CREATE INDEX IF NOT EXISTS "pages_brag_posters_order_idx" ON "pages_brag_posters" USING btree ("order");
-    CREATE INDEX IF NOT EXISTS "pages_brag_posters_parent_id_idx" ON "pages_brag_posters" USING btree ("parent_id");
-    CREATE INDEX IF NOT EXISTS "pages_brag_rows_order_idx" ON "pages_brag_rows" USING btree ("order");
-    CREATE INDEX IF NOT EXISTS "pages_brag_rows_parent_id_idx" ON "pages_brag_rows" USING btree ("parent_id");
-    CREATE INDEX IF NOT EXISTS "pages_footer_logos_order_idx" ON "pages_footer_logos" USING btree ("order");
-    CREATE INDEX IF NOT EXISTS "pages_footer_logos_parent_id_idx" ON "pages_footer_logos" USING btree ("parent_id");
+    CREATE INDEX IF NOT EXISTS "pages_hero_roles_order_idx" ON "pages_hero_roles" USING btree ("_order");
+    CREATE INDEX IF NOT EXISTS "pages_hero_roles_parent_id_idx" ON "pages_hero_roles" USING btree ("_parent_id");
+    CREATE INDEX IF NOT EXISTS "pages_hero_logos_order_idx" ON "pages_hero_logos" USING btree ("_order");
+    CREATE INDEX IF NOT EXISTS "pages_hero_logos_parent_id_idx" ON "pages_hero_logos" USING btree ("_parent_id");
+    CREATE INDEX IF NOT EXISTS "pages_process_steps_order_idx" ON "pages_process_steps" USING btree ("_order");
+    CREATE INDEX IF NOT EXISTS "pages_process_steps_parent_id_idx" ON "pages_process_steps" USING btree ("_parent_id");
+    CREATE INDEX IF NOT EXISTS "pages_brag_posters_order_idx" ON "pages_brag_posters" USING btree ("_order");
+    CREATE INDEX IF NOT EXISTS "pages_brag_posters_parent_id_idx" ON "pages_brag_posters" USING btree ("_parent_id");
+    CREATE INDEX IF NOT EXISTS "pages_brag_rows_order_idx" ON "pages_brag_rows" USING btree ("_order");
+    CREATE INDEX IF NOT EXISTS "pages_brag_rows_parent_id_idx" ON "pages_brag_rows" USING btree ("_parent_id");
+    CREATE INDEX IF NOT EXISTS "pages_footer_logos_order_idx" ON "pages_footer_logos" USING btree ("_order");
+    CREATE INDEX IF NOT EXISTS "pages_footer_logos_parent_id_idx" ON "pages_footer_logos" USING btree ("_parent_id");
     CREATE INDEX IF NOT EXISTS "testimonials_updated_at_idx" ON "testimonials" USING btree ("updated_at");
     CREATE INDEX IF NOT EXISTS "testimonials_created_at_idx" ON "testimonials" USING btree ("created_at");
     CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_testimonials_id_idx" ON "payload_locked_documents_rels" USING btree ("testimonials_id");
 
-    ALTER TABLE "pages_hero_roles" ADD CONSTRAINT "pages_hero_roles_parent_id_pages_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-    ALTER TABLE "pages_hero_logos" ADD CONSTRAINT "pages_hero_logos_parent_id_pages_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-    ALTER TABLE "pages_process_steps" ADD CONSTRAINT "pages_process_steps_parent_id_pages_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-    ALTER TABLE "pages_brag_posters" ADD CONSTRAINT "pages_brag_posters_parent_id_pages_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+    ALTER TABLE "pages_hero_roles" ADD CONSTRAINT "pages_hero_roles_parent_id_pages_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+    ALTER TABLE "pages_hero_logos" ADD CONSTRAINT "pages_hero_logos_parent_id_pages_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+    ALTER TABLE "pages_process_steps" ADD CONSTRAINT "pages_process_steps_parent_id_pages_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+    ALTER TABLE "pages_brag_posters" ADD CONSTRAINT "pages_brag_posters_parent_id_pages_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
     ALTER TABLE "pages_brag_posters" ADD CONSTRAINT "pages_brag_posters_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-    ALTER TABLE "pages_brag_rows" ADD CONSTRAINT "pages_brag_rows_parent_id_pages_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-    ALTER TABLE "pages_footer_logos" ADD CONSTRAINT "pages_footer_logos_parent_id_pages_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+    ALTER TABLE "pages_brag_rows" ADD CONSTRAINT "pages_brag_rows_parent_id_pages_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+    ALTER TABLE "pages_footer_logos" ADD CONSTRAINT "pages_footer_logos_parent_id_pages_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
     ALTER TABLE "testimonials" ADD CONSTRAINT "testimonials_photo_id_media_id_fk" FOREIGN KEY ("photo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
     ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_testimonials_fk" FOREIGN KEY ("testimonials_id") REFERENCES "public"."testimonials"("id") ON DELETE cascade ON UPDATE no action;
   `)

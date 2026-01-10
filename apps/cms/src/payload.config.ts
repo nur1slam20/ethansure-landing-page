@@ -26,7 +26,6 @@ export default buildConfig({
       idleTimeoutMillis: 30000,
       max: 20,
     },
-    push: process.env.NODE_ENV === 'development',
   }),
 
   admin: {
