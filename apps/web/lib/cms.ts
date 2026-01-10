@@ -137,16 +137,35 @@ export const getTestimonials = cache(async () => {
   }
 })
 
+function getMediaBaseUrl() {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')
+  }
+
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+    return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`.replace(/\/$/, '')
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3001'
+  }
+
+  return ''
+}
+
 export function getMediaUrl(media: MediaDoc | string | number | null | undefined): string {
   if (!media) return ''
   
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+  const baseUrl = getMediaBaseUrl()
   
   if (typeof media === 'string') {
     if (media.startsWith('http://') || media.startsWith('https://')) {
       return media
     }
-    return `${baseUrl}${media.startsWith('/') ? '' : '/'}${media}`
+    if (baseUrl) {
+      return `${baseUrl}${media.startsWith('/') ? '' : '/'}${media}`
+    }
+    return media
   }
   
   if (typeof media === 'number') {
@@ -159,7 +178,10 @@ export function getMediaUrl(media: MediaDoc | string | number | null | undefined
       if (url.startsWith('http://') || url.startsWith('https://')) {
         return url
       }
-      return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`
+      if (baseUrl) {
+        return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`
+      }
+      return url
     }
   }
   
