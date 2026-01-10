@@ -11,21 +11,8 @@ import { TrustStats } from './collections/TrustStats'
 import { Pages } from './collections/pages'
 import { Testimonials } from './collections/testimonials'
 
-const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET
-if (!PAYLOAD_SECRET) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('PAYLOAD_SECRET is required in production')
-  }
-  console.warn('PAYLOAD_SECRET is missing - using placeholder for build')
-}
-
-const DATABASE_URL = process.env.DATABASE_URL
-if (!DATABASE_URL) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error('DATABASE_URL is required in production')
-  }
-  console.warn('DATABASE_URL is missing - using placeholder for build')
-}
+const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET || (process.env.NODE_ENV === 'production' ? (() => { throw new Error('PAYLOAD_SECRET is required in production') })() : 'build-placeholder')
+const DATABASE_URL = process.env.DATABASE_URL || (process.env.NODE_ENV === 'production' ? (() => { throw new Error('DATABASE_URL is required in production') })() : 'postgresql://build-placeholder')
 
 const BLOB_READ_WRITE_TOKEN = process.env.BLOB_READ_WRITE_TOKEN
 
@@ -34,7 +21,7 @@ export default buildConfig({
 
   db: postgresAdapter({
     pool: {
-      connectionString: DATABASE_URL || 'postgresql://placeholder',
+      connectionString: DATABASE_URL,
       connectionTimeoutMillis: 10000,
       idleTimeoutMillis: 30000,
       max: 20,
