@@ -3,6 +3,7 @@ import * as migration_20260107_213755_trust_stats from './20260107_213755_trust_
 import * as migration_20260108_162721_add_project_image from './20260108_162721_add_project_image';
 import * as migration_20260110_091451_add_pages_fields_and_testimonials from './20260110_091451_add_pages_fields_and_testimonials';
 import * as migration_20260110_093800_fix_pages_array_columns from './20260110_093800_fix_pages_array_columns';
+import * as migration_20260110_094000_fix_array_tables_id_type from './20260110_094000_fix_array_tables_id_type';
 
 export const migrations = [
   {
@@ -29,5 +30,10 @@ export const migrations = [
     up: migration_20260110_093800_fix_pages_array_columns.up,
     down: migration_20260110_093800_fix_pages_array_columns.down,
     name: '20260110_093800_fix_pages_array_columns'
+  },
+  {
+    up: migration_20260110_094000_fix_array_tables_id_type.up,
+    down: migration_20260110_094000_fix_array_tables_id_type.down,
+    name: '20260110_094000_fix_array_tables_id_type'
   },
 ];

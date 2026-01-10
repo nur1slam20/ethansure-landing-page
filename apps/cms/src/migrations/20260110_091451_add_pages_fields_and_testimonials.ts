@@ -10,21 +10,21 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     ALTER TABLE "pages" ADD COLUMN IF NOT EXISTS "footer_logos_title" varchar;
 
     CREATE TABLE IF NOT EXISTS "pages_hero_roles" (
-      "id" serial PRIMARY KEY NOT NULL,
+      "id" varchar PRIMARY KEY NOT NULL,
       "_order" integer,
       "_parent_id" integer NOT NULL,
       "role" varchar NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS "pages_hero_logos" (
-      "id" serial PRIMARY KEY NOT NULL,
+      "id" varchar PRIMARY KEY NOT NULL,
       "_order" integer,
       "_parent_id" integer NOT NULL,
       "logo" varchar NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS "pages_process_steps" (
-      "id" serial PRIMARY KEY NOT NULL,
+      "id" varchar PRIMARY KEY NOT NULL,
       "_order" integer,
       "_parent_id" integer NOT NULL,
       "number" varchar NOT NULL,
@@ -33,14 +33,14 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     );
 
     CREATE TABLE IF NOT EXISTS "pages_brag_posters" (
-      "id" serial PRIMARY KEY NOT NULL,
+      "id" varchar PRIMARY KEY NOT NULL,
       "_order" integer,
       "_parent_id" integer NOT NULL,
       "image_id" integer
     );
 
     CREATE TABLE IF NOT EXISTS "pages_brag_rows" (
-      "id" serial PRIMARY KEY NOT NULL,
+      "id" varchar PRIMARY KEY NOT NULL,
       "_order" integer,
       "_parent_id" integer NOT NULL,
       "company" varchar NOT NULL,
@@ -50,7 +50,7 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
     );
 
     CREATE TABLE IF NOT EXISTS "pages_footer_logos" (
-      "id" serial PRIMARY KEY NOT NULL,
+      "id" varchar PRIMARY KEY NOT NULL,
       "_order" integer,
       "_parent_id" integer NOT NULL,
       "label" varchar NOT NULL
