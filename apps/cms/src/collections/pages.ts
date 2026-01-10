@@ -1,4 +1,3 @@
-// apps/cms/src/collections/Pages.ts
 import { CollectionConfig } from 'payload';
 
 export const Pages: CollectionConfig = {
